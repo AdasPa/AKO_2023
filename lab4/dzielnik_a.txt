@@ -1,0 +1,38 @@
+.686
+.model flat
+public _dzielenie
+.code
+
+_dzielenie PROC
+    push ebp          ; zapisanie zawartości EBP na stosie
+    mov ebp, esp      ; kopiowanie zawartości ESP do EBP
+    push ebx          ; przechowanie zawartości rejestru EBX
+
+    ;mov edx, 0
+
+    mov eax, [ebp+8]  ; wartość dzielna
+    mov eax, [eax]
+    mov ebx, [ebp+12] ; adres dzielnik
+    mov ebx, [ebx] 
+    mov ebx, [ebx]
+
+    bt eax, 31
+    jc ujemna
+
+    dodatnia:
+    mov edx, 0
+    jmp dalej
+    ujemna:
+    mov edx, -1
+    dalej:
+
+    idiv ebx
+
+
+    pop ebx
+    pop ebp
+    ret
+    
+_dzielenie ENDP
+
+END

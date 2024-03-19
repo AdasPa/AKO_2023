@@ -1,0 +1,18 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <stdio.h>
+#include <cstring>
+extern "C" int dzielenie(int* dzielna, int** dzielnik);
+
+int main()
+{
+	int dzielnik = -4;
+	int dzielna = 1296;
+
+	int* wsk = &dzielnik;
+
+	int x = dzielenie( &dzielna, &wsk);
+	printf_s("%d", x);
+
+	return 0;
+}

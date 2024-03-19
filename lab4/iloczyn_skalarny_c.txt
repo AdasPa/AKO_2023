@@ -1,0 +1,14 @@
+#include <stdio.h>
+extern "C" int dot_product(int tab1[], int tab2[], int n);
+
+int main()
+{
+	int n = 9;
+	int tab1[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	int tab2[] = { 9, 8, 7, 6, 5, 4, 3, 2, 1 };
+
+	int x = dot_product(tab1, tab2, n);
+	printf_s("%d", x);
+
+	return 0;
+}

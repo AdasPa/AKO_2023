@@ -1,0 +1,29 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include<stdio.h>
+#include<Windows.h>
+
+extern "C" long long rozmiar(char tablica[]);
+//extern "C" long long rozmiar(const wchar_t* tablica);
+
+int main() {
+	const int max_rozmiar = 256;
+	char* nazwa = (char*)malloc(256 * sizeof(char));
+	if (nazwa == NULL)
+		return 1;
+	fgets(nazwa, max_rozmiar, stdin);
+
+	//printf("rozmiar %s = %d", nazwa, rozmiar(nazwa));
+
+	wchar_t* nazwaw = (wchar_t*)malloc(256 * sizeof(char));
+	if (nazwaw == NULL)
+		return 1;
+	//fgetws(nazwaw, max_rozmiar, stdin);
+
+	long long r = rozmiar(nazwa);
+	if (r < 0) printf("-1");
+	else printf("rozmiar = %d",  r);
+
+	free(nazwa);
+}
+

@@ -1,0 +1,16 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+/* Program przykładowy ilustrujący operacje SSE procesora
+ Program jest przystosowany do współpracy z podprogramem
+ zakodowanym w asemblerze (plik arytm_SSE.asm)
+*/
+#include <stdio.h>
+extern "C" void dodawanie_SSE(float* a);
+int main()
+{
+	float wyniki[4];
+	dodawanie_SSE(wyniki);
+	printf("\nWyniki = %f %f %f %f\n",
+		wyniki[0], wyniki[1], wyniki[2], wyniki[3]);
+	return 0;
+}

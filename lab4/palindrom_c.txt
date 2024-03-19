@@ -1,0 +1,20 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <stdio.h>
+#include <cstring>
+extern "C" int isPalindrome(wchar_t* strng, unsigned int liczba_znakow);
+
+int main()
+{
+	unsigned int len = 7;
+	wchar_t* strng = new wchar_t[len];
+	const wchar_t* strng_ = L"abcGcba";
+	wcscpy(strng, strng_);
+
+
+
+	int x = isPalindrome(strng, len);
+	printf_s("%d", x);
+
+	return 0;
+}

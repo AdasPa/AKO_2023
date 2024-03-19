@@ -1,0 +1,16 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include<stdio.h>
+#include<Windows.h>
+
+extern "C" float nowy_exp(float x);
+
+int main() {
+	float x = 3.26;
+	
+	float exp = nowy_exp(x);
+	printf("Wynik wynosi: %f", exp);
+
+	return 0;
+}
+

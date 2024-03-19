@@ -1,0 +1,38 @@
+.686
+.model flat
+
+public	_uint48_float
+.data
+	jeden dd 1.0
+	wsp_b dd -4.0
+
+.code
+		_uint48_float PROC
+		push ebp
+		mov ebp, esp
+		mov eax, [ebp+8]
+		mov ebx, 0;
+		mov bx, [ebp+12] ; liczba UITN48  eax:bx 
+
+		finit
+		push eax
+		fild dword PTR [esp]
+		add esp, 4
+
+		push ebx
+		fild dword PTR [esp]
+		add esp,4
+
+		mov ecx, 65536
+		push ecx
+		fild dword PTR [esp]
+		add esp,4
+
+		fdiv
+		fadd
+
+
+		pop ebp
+		ret
+	_uint48_float ENDP
+END

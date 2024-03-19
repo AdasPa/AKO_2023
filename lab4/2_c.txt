@@ -1,0 +1,10 @@
+#include <stdio.h>
+extern "C" void odwroc_liczbe(int* a);
+int main()
+{
+	int m;
+	m = -7;
+	odwroc_liczbe(&m);
+	printf("\n m = %d\n", m);
+	return 0;
+}

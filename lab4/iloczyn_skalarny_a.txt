@@ -1,0 +1,48 @@
+.686
+.model flat
+public _dot_product
+.code
+
+_dot_product PROC
+    push ebp          ; zapisanie zawartości EBP na stosie
+    mov ebp, esp      ; kopiowanie zawartości ESP do EBP
+    push ebx          ; przechowanie zawartości rejestru EBX
+
+    mov edx, [ebp+8]  ; adres tablicy tab1
+    mov ebx, [ebp+12] ; adres tablicy tab2
+
+    mov ecx, [ebp+16] ; liczba elementów tablicy
+    mov ebp, edx
+    mov eax, 1
+    mov edi, 0
+
+    ; wpisanie kolejnego elementu tablicy do rejestru EAX
+    ptl: 
+        dec ecx
+        mov eax, [ebp+4*ecx]
+        mov esi, [ebx+4*ecx]
+        inc ecx
+        mul esi
+        add edi, eax
+        
+        loop ptl        ; organizacja pętli
+    mov eax, edi
+
+    pop ebx           ; odtworzenie zawartości rejestru EBX
+    pop ebp           ; odtworzenie zawartości EBP
+    ret               ; powrót do programu głównego
+_dot_product ENDP
+
+_ptl PROC
+mov eax, 1
+push eax
+mov eax, 3
+push eax
+mov eax, 9
+push eax
+mov eax, 8
+push eax
+pop eax
+_ptl ENDP
+
+END

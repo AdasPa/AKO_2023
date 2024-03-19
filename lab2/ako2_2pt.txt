@@ -1,0 +1,159 @@
+; wczytywanie i wyświetlanie tekstu wielkimi literami
+; (inne znaki się nie zmieniają)
+.686
+.model flat
+extern _ExitProcess@4 : PROC
+extern __write : PROC ; (dwa znaki podkreślenia)
+extern __read : PROC ; (dwa znaki podkreślenia)
+extern _MessageBoxW@16 : PROC
+
+public _main
+
+.data
+tekst_pocz db 10, 'Prosze podac wejscie '
+db 'i nacisnac Enter', 10
+koniec_t db ?
+magazyn db 32 dup (?)
+nowa_linia db 10
+liczba_znakow dd ?
+
+utf db 64 dup (0)
+
+.code
+_main PROC
+; wyświetlenie tekstu informacyjnego
+; liczba znaków tekstu
+ mov ecx,(OFFSET koniec_t) - (OFFSET tekst_pocz)
+ push ecx
+ push OFFSET tekst_pocz ; adres tekstu
+ push 1 ; nr urządzenia (tu: ekran - nr 1)
+ call __write ; wyświetlenie tekstu początkowego
+ add esp, 12 ; usuniecie parametrów ze stosu
+
+; czytanie wiersza z klawiatury
+ push 80 ; maksymalna liczba znaków
+ push OFFSET magazyn
+ push 0 ; nr urządzenia (tu: klawiatura - nr 0)
+ call __read ; czytanie znaków z klawiatury
+ add esp, 12 ; usuniecie parametrów ze stosu
+
+; kody ASCII napisanego tekstu zostały wprowadzone
+; do obszaru 'magazyn'
+; funkcja read wpisuje do rejestru EAX liczbę
+; wprowadzonych znaków
+ mov liczba_znakow, eax
+
+; rejestr ECX pełni rolę licznika obiegów pętli
+ mov ecx, eax
+ mov dh, 0
+ mov ebx, 0 ; indeks początkowy
+ptl: mov dl, magazyn[ebx] ; pobranie kolejnego znaku
+
+cmp dl, 165 ;ą
+ jne pl1
+ inc dh
+ jmp dalej;
+
+ pl1:
+ cmp dl, 134 ;ć
+ jne pl2
+ inc dh
+ jmp dalej;
+
+ pl2:
+ cmp dl, 169 ;ę
+ jne pl3
+ inc dh
+ jmp dalej;
+
+ pl3:
+ cmp dl, 136 ;ł
+ jne pl4
+ inc dh
+ jmp dalej;
+
+ pl4:
+ cmp dl, 228 ;ń
+ jne pl5
+ inc dh
+ jmp dalej;
+
+ pl5:
+ cmp dl, 162 ;ó
+ jne pl6
+ inc dh
+ jmp dalej;
+
+ pl6:
+ cmp dl, 152 ;ś
+ jne pl7
+ inc dh
+ jmp dalej;
+
+ pl7:
+ cmp dl, 171 ;ź
+ jne pl8
+ inc dh
+ jmp dalej;
+
+ pl8:
+ cmp dl, 190 ;ż
+ jne pl9
+ inc dh
+ jmp dalej;
+
+ pl9:
+
+ cmp dl, '0'
+ jb dalej ; skok, gdy znak nie wymaga zamiany
+ cmp dl, '9'
+ ja dalej ; skok, gdy znak nie wymaga zamiany
+ mov al, dl
+ 
+
+ dalej: 
+ inc ebx ; inkrementacja indeksu
+ dec ecx
+
+ jnz ptl ; sterowanie pętlą
+
+ add dh, 48
+
+ 
+ cmp dh, al ; al - liczba z okienka,   dh - ilość polskich znakow
+ jnb skip2
+ 
+ mov utf[0], dh
+ mov utf[2], 3EH
+ mov utf[3], 0D8H
+ mov utf[4], 86H
+ mov utf[5], 0DDH
+
+ skip2:
+
+ cmp dh, al ; al - liczba z okienka,   dh - ilość polskich znakow
+ jb skip
+
+ mov utf[0], al
+ mov utf[2], 3DH
+ mov utf[3], 0D8H
+ mov utf[4], 31H
+ mov utf[5], 0DCH
+
+ skip:
+
+
+
+ push 0
+ push OFFSET utf
+; adres obszaru zawierającego tekst
+ push OFFSET utf
+ push 0 ; NULL
+ call _MessageBoxW@16
+
+
+ add esp, 12 ; usuniecie parametrów ze stosu
+ push 0
+ call _ExitProcess@4 ; zakończenie programu
+_main ENDP
+END

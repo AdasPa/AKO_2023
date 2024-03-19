@@ -1,0 +1,29 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+/* Program przykładowy ilustrujący operacje SSE procesora
+ Program jest przystosowany do współpracy z podprogramem
+ zakodowanym w asemblerze (plik arytm_SSE.asm)
+*/
+#include <stdio.h>
+
+struct UINT48
+{
+	unsigned int a; //najstarsza
+	unsigned short int b; //najmłodsza -> po przecinku
+};
+
+extern "C" float uint48_float(UINT48 p);
+
+
+
+int main()
+{
+	UINT48 liczba;
+	liczba.a = 5;
+	liczba.b = 32768+16384;
+
+	float wynik = uint48_float(liczba);
+	printf("%f", wynik);
+
+	return 0;
+}

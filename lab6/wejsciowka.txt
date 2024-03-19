@@ -1,0 +1,43 @@
+ile bajtów ma tablica wektorów przerwań w trybie 16bit?
+jak, bez użycia funkcji systemowych (BIOS), można odczytać znak z klawiatury?
+IF=0 blokuje przerwania …
+co robi iret (kolejnosc wazna)?
+
+Czy mozna wywolac przerwanie klawistury biosu podczas mov al,1 int 13h czy cos takiego nie mozna bo by sie zapetlily
+Jak wywolac rejestr stanu costam costam odpowiedz in al, 64h
+
+Na jakie dane wskazuje segment SS?
+Jak w trybie graficznym 13h zmienić kolor piksela w drugim wierszu pierwszej kolumnie na czarny? 3/4 rozkazy
+Jak zmienić część segmentową adresu wektora przerwań zegarowych, na tą, umieszczoną w ax, gdy ds=0000h? jeden rozkaz -- mov ds:[34], ax
+
+
+
+If = 1 pozwala na występowanie przerwań....
+Sprzetowych
+I pod jakim adresem znajduje się bajt koloru w trybie graficznym 13h pierwszy wiersz 17 kolumna
+A0010h
+
+Jak pobrać wartosc rejestru sterującego klawiatury jakoś tak: in al,64h
+Gdzie znajduje się kod znaku ascii 2 kolumna 1 linijka trybu tekstowego: B8002h
+został wpisany string 'abc' i ile było przerwań klawiatury w tym czasie(6)
+
+To było "Ile sygnałów IRQ można zaadresować na szeregowo ustawionych układach 8259? Na 2 układach 8259 można 15
+Co to linia IRQ? Czy dotyczy ona przerwań procesora?
+Jaki jest adres segmentu, jeżeli adres fizyczny to 46CH, a adres efektywny to 5CH? odp. 41H
+
+Jakie rejestry używa się przy układach wejścia-wyjścia?
+rejestr stanu
+rejestr sterujący
+rejestr danych wejściowych
+rejestr danych wyjściowych
+Jaki jest maksymalny rozmiar pamięci na którym można w trybie rzeczywistym adresować dane?
+1MB
+Co robi 21H (tutaj był jeszcze podany AH, czy AL)? 
+zakończenie programu
+
+Jakie mnemoniki do komunikacji z urządzeniem wejścia wyjścia? - IN, OUT
+
+W jaki sposób kontroler rozróżnia klawisze o jednakowym kodzie pozycji? - Przed kodem naciśnięcia / wciśnięcia wysyłany jest dodatkowy bajt E0h lub E1h
+
+Zakładając że ds = 00B0h, es = 00AFh, ax = 0000h, i bx = 0010h, to czy wartości ds:[ax] oraz es:[bx] są sobie równe? - Tak, ze względu na adresowanie segmentowe, gdzie faktyczne wyniki to ([ds/es] * 16) + [ax/bx]
+

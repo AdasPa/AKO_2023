@@ -1,0 +1,78 @@
+.686
+.model flat
+
+extern	_GetEnvironmentVariableW@12	: PROC
+extern	_malloc						: PROC
+extern	_free						: PROC
+extern	__write						: PROC
+extern _FindFirstFileW@8			: PROC
+
+public	_rozmiar
+
+.code
+_rozmiar	PROC
+			push	ebp
+			mov		ebp, esp
+
+			push	ebx
+			push	esi
+			push	edi
+
+			mov ebx, [ebp+8] ;tablica
+
+			push 512
+			call _malloc
+			add esp, 4
+			mov esi, eax
+
+			;mov ecx,512
+			;zeruj:
+			;	dec ecx
+		;		mov [esi+ecx], 0
+		;		cmp ecx, 0
+		;		ja zeruj
+
+			mov edx, 0
+
+			mov ecx,0
+
+			rozszerzaj:
+				mov dl, [ebx+ecx]
+				mov dh, 0
+				
+				cmp dl, 0ah
+				je koniec
+				mov [esi+2*ecx], dx
+				
+				inc ecx
+				jmp rozszerzaj
+
+			koniec:
+			mov edx, 0
+			mov [esi+2*ecx], edx
+
+
+			push 316
+			call _malloc
+			add esp, 4
+			mov edi, eax
+
+			
+			push edi
+			push esi
+
+			call _FindFirstFileW@8
+
+			;mov edx, -1
+			mov edx, dword ptr [edi + 28]
+			;mov eax, -1
+			mov eax, dword ptr [edi + 32]
+			pop		edi
+			pop		esi
+			pop		ebx
+
+			pop		ebp
+			ret
+
+_rozmiar	ENDP
+END

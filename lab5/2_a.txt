@@ -1,0 +1,78 @@
+.686
+.model flat
+
+extern	_GetEnvironmentVariableW@12	: PROC
+extern	_malloc						: PROC
+extern	_free						: PROC
+extern	__write						: PROC
+extern _FindFirstFileW@8			: PROC
+
+public	_nowy_exp
+.data
+	jeden dd 1.0
+	wsp_b dd -4.0
+
+.code
+	_nowy_exp	PROC
+		push ebp
+		mov	ebp, esp
+		push ebx
+		push esi
+		push edi
+
+		
+		mov ebx, [ebp+8] ;x
+
+		finit
+
+		fldz
+		fld dword PTR jeden
+		fld dword PTR jeden
+		fld dword PTR jeden
+		
+
+		push ebx
+		fld dword PTR [esp]
+		add esp, 4
+
+		; st(0) - x, st(1) - jeden, st(2) - jeden, st(3) - jeden, st(4) - zero
+
+		mov ecx, 1
+		ptl:
+			fmul st(1), st(0) ;w st(1) x^kolejnej
+			fxch st(1)
+			fst st(4)
+			fxch st(1)
+
+			fxch st(2) ;st(0) - mianownik, st(1) x^kolejnej, st(2) - x, st(3) - suma, st(4) x^kolejnej
+			
+			push ecx
+			fild dword PTR [esp]
+			add esp, 4 ;st(0) to mnożnik
+
+			fmulp st(1), st(0) ; st(0) - mianownik domnożony, st(1) - x^kolejnej,   st(2) - x, st(3) - suma
+
+			fdiv st(4), st(0) ; st(0) - mianownik, st(1) - x^kolejnej,   st(2) - x, st(3) - suma, st(4) - wartość do dodania
+			fxch st(3)
+			fadd st(0), st(4)
+			fxch st(3) ; st(0) - mianownik, st(1) - x^kolejnej,   st(2) - x, st(3) - suma, st(4) - wartość do dodania
+
+			fxch st(2) ; st(0) - x, st(1) - x^kolejnej,   st(2) - mianownik, st(3) - suma, st(4) - wartość do dodania
+
+
+			inc ecx
+			cmp ecx, 20
+			jb ptl
+
+		
+
+		fxch st(3)
+
+		pop edi
+		pop esi
+		pop	ebx
+		pop	ebp
+		ret
+
+	_nowy_exp	ENDP
+END

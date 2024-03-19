@@ -1,0 +1,46 @@
+.686
+.model flat
+
+extern	_GetEnvironmentVariableW@12	: PROC
+extern	_malloc						: PROC
+extern	_free						: PROC
+extern	__write						: PROC
+extern _FindFirstFileW@8			: PROC
+
+public	_rozmiar
+
+.code
+_rozmiar	PROC
+			push	ebp
+			mov		ebp, esp
+
+			push	ebx
+			push	esi
+			push	edi
+
+			mov ebx, [ebp+8] ;tablica
+
+			push 100000
+			call _malloc
+			add esp, 4
+			mov edi, eax
+
+			
+			push edi
+			push ebx
+
+			call _FindFirstFileW@8
+
+			;mov edx, -1
+			mov edx, dword ptr [edi + 28]
+			;mov eax, -1
+			mov eax, dword ptr [edi + 32]
+			pop		edi
+			pop		esi
+			pop		ebx
+
+			pop		ebp
+			ret
+
+_rozmiar	ENDP
+END
